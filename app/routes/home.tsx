@@ -1,13 +1,22 @@
+import { TaskTable } from "~/components/task-table";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { AddTask } from "~/components/add-task";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+    return [
+        { title: "New Task App" },
+        { name: "2 DO", content: "Welcome to 2DO" },
+    ];
 }
 
 export default function Home() {
-  return <Welcome />;
+    const addTaskHandler = () => {
+        console.log("ADD TASK!");
+    };
+    return (
+        <div>
+            <AddTask onClickHandler={addTaskHandler} />
+            <TaskTable />
+        </div>
+    );
 }

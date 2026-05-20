@@ -40,8 +40,23 @@ const taskSlice = createSlice({
                 }
             },
         },
+        removeTask: {
+            prepare(id: string) {
+                return {
+                    payload: id,
+                };
+            },
+            reducer(state: Task[], action: PayloadAction<string>) {
+                const index = state.findIndex(
+                    (t) => t.id.toString() === action.payload,
+                );
+                if (index !== -1) {
+                    state.splice(index, 1);
+                }
+            },
+        },
     },
 });
 
-export const { addTask, completeTask } = taskSlice.actions;
+export const { addTask, completeTask, removeTask } = taskSlice.actions;
 export default taskSlice.reducer;

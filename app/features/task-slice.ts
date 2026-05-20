@@ -10,7 +10,6 @@ const taskSlice = createSlice({
             state.push({
                 id: action.payload.id,
                 title: action.payload.title,
-                description: action.payload.description,
                 completed: action.payload.completed,
             });
         },

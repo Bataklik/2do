@@ -3,7 +3,7 @@ import type { Route } from "./+types/home";
 import { AddTask } from "~/components/add-task";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/store";
-import { addTask } from "~/features/task-slice";
+import { addTask, completeTask } from "~/features/task-slice";
 import { useState } from "react";
 export function meta({}: Route.MetaArgs) {
     return [
@@ -24,6 +24,23 @@ export default function Home() {
         dispatch(addTask(taskTitle));
         setTaskTitle("");
     };
+
+    const toggleTaskCompletdHandler = (
+        e: boolean,
+        eventDetails: {
+            reason: "none";
+            event: Event;
+            cancel: () => void;
+            allowPropagation: () => void;
+            isCanceled: boolean;
+            isPropagationAllowed: boolean;
+            trigger: Element | undefined;
+        },
+    ) => {
+        console.log("toggleTaskCompletdHandler ");
+        const taskId = (eventDetails.event.target as HTMLInputElement)?.name;
+        dispatch(completeTask(taskId));
+    };
     return (
         <div>
             <AddTask
@@ -31,7 +48,10 @@ export default function Home() {
                 text={taskTitle}
                 setText={setTaskTitle}
             />
-            <TaskTable tasks={tasks} />
+            <TaskTable
+                tasks={tasks}
+                onCheckedChanged={toggleTaskCompletdHandler}
+            />
         </div>
     );
 }

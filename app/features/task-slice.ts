@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction, nanoid } from "@reduxjs/toolkit";
 import type { Task } from "~/types";
-import { useId } from "react";
 // https://redux-toolkit.js.org/introduction/why-rtk-is-redux-today
 // https://redux-toolkit.js.org/usage/usage-with-typescript#createslice
 // https://stackoverflow.com/questions/71446347/redux-toolkit-generate-and-return-an-id-return-data-from-action
@@ -15,7 +14,7 @@ const taskSlice = createSlice({
                         id: nanoid(),
                         title,
                         completed: false,
-                    } as Task,
+                    } as unknown as Task,
                 };
             },
             reducer(state: Task[], action: PayloadAction<Task>) {
@@ -27,7 +26,7 @@ const taskSlice = createSlice({
             },
         },
         completeTask(state: Task[], action: PayloadAction<string>) {
-            const task = state.find((t) => t.id === action.payload);
+            const task = state.find((t) => String(t.id) === action.payload);
             if (task) {
                 task.completed = !task.completed;
             }

@@ -1,22 +1,21 @@
+import type { Task } from "~/types";
 import { Table, TableBody } from "../components/ui/table";
 import { TaskCell } from "./task-cell";
 
-export function TaskTable() {
+interface TaskTableProps {
+    tasks: Task[];
+}
+export function TaskTable({ tasks }: TaskTableProps) {
     return (
         <Table>
             <TableBody>
-                <TaskCell complete={false} task={"delectus aut autem"} />
-                <TaskCell
-                    complete={false}
-                    task={"quis ut nam facilis et officia qui"}
-                />
-                <TaskCell complete={false} task={"fugiat veniam minus"} />
-                <TaskCell
-                    complete={false}
-                    task={
-                        "laboriosam mollitia et enim quasi adipisci quia provident illum"
-                    }
-                />
+                {tasks.map((task) => (
+                    <TaskCell
+                        key={task.id}
+                        complete={task.completed}
+                        task={task.title}
+                    />
+                ))}
             </TableBody>
         </Table>
     );

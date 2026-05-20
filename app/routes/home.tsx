@@ -3,8 +3,9 @@ import type { Route } from "./+types/home";
 import { AddTask } from "~/components/add-task";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/store";
-import { addTask, completeTask } from "~/features/task-slice";
+import { addTask, completeTask, removeTask } from "~/features/task-slice";
 import { useState } from "react";
+import type { BaseUIEvent } from "@base-ui/react/types";
 export function meta({}: Route.MetaArgs) {
     return [
         { title: "New Task App" },
@@ -41,6 +42,16 @@ export default function Home() {
         const taskId = (eventDetails.event.target as HTMLInputElement)?.name;
         dispatch(completeTask(taskId));
     };
+
+    const removeTaskHandler = (
+        event: BaseUIEvent<React.MouseEvent<HTMLButtonElement, MouseEvent>>,
+    ) => {
+        console.log("removeTaskHandler ");
+        const taskId = event.currentTarget.name;
+        console.log(taskId);
+        dispatch(removeTask(taskId));
+    };
+
     return (
         <div>
             <AddTask
@@ -51,6 +62,7 @@ export default function Home() {
             <TaskTable
                 tasks={tasks}
                 onCheckedChanged={toggleTaskCompletdHandler}
+                onClick={removeTaskHandler}
             />
         </div>
     );

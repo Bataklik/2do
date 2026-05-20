@@ -1,6 +1,7 @@
 import type { Task } from "~/types";
 import { Table, TableBody } from "../components/ui/table";
 import { TaskCell } from "./task-cell";
+import type { BaseUIEvent } from "@base-ui/react/types";
 
 interface TaskTableProps {
     tasks: Task[];
@@ -16,8 +17,15 @@ interface TaskTableProps {
             trigger: Element | undefined;
         },
     ) => void;
+    onClick: (
+        event: BaseUIEvent<React.MouseEvent<HTMLButtonElement, MouseEvent>>,
+    ) => void;
 }
-export function TaskTable({ tasks, onCheckedChanged }: TaskTableProps) {
+export function TaskTable({
+    tasks,
+    onCheckedChanged,
+    onClick,
+}: TaskTableProps) {
     return (
         <Table>
             <TableBody>
@@ -28,6 +36,7 @@ export function TaskTable({ tasks, onCheckedChanged }: TaskTableProps) {
                         complete={task.completed}
                         task={task.title}
                         onCheckedChanged={onCheckedChanged}
+                        onClick={onClick}
                     />
                 ))}
             </TableBody>

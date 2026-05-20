@@ -20,12 +20,16 @@ interface TaskCellProps {
             trigger: Element | undefined;
         },
     ) => void;
+    onClick: (
+        event: BaseUIEvent<React.MouseEvent<HTMLButtonElement, MouseEvent>>,
+    ) => void;
 }
 export function TaskCell({
     taskId,
     complete,
     task,
     onCheckedChanged,
+    onClick,
 }: TaskCellProps) {
     return (
         <TableRow>
@@ -40,9 +44,10 @@ export function TaskCell({
             <TableCell>
                 <Button
                     variant="outline"
+                    name={taskId}
                     size="icon"
                     aria-label="Submit"
-                    onClick={(e) => console.log(e)}
+                    onClick={onClick}
                 >
                     <Trash />
                 </Button>

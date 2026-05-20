@@ -25,14 +25,23 @@ const taskSlice = createSlice({
                 });
             },
         },
-        completeTask(state: Task[], action: PayloadAction<string>) {
-            const task = state.find((t) => String(t.id) === action.payload);
-            if (task) {
-                task.completed = !task.completed;
-            }
+        completeTask: {
+            prepare(id: string) {
+                return {
+                    payload: id,
+                };
+            },
+            reducer(state: Task[], action: PayloadAction<string>) {
+                const task = state.find(
+                    (t) => t.id.toString() === action.payload,
+                );
+                if (task) {
+                    task.completed = !task.completed;
+                }
+            },
         },
     },
 });
 
-export const { addTask, completeTask: taskCompleted } = taskSlice.actions;
+export const { addTask, completeTask } = taskSlice.actions;
 export default taskSlice.reducer;

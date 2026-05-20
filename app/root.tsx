@@ -11,7 +11,9 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { Header } from "./components/layout/header";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store, persistor } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 export const links: Route.LinksFunction = () => [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {
@@ -37,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Meta />
                 <Links />
             </head>
-            <body>
+            <body suppressHydrationWarning>
                 <Header />
                 <div className="px-24">{children}</div>
                 <ScrollRestoration />
@@ -50,7 +52,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
     return (
         <Provider store={store}>
-            <Outlet />
+            <PersistGate loading={null} persistor={persistor}>
+                <Outlet />
+            </PersistGate>
         </Provider>
     );
 }
